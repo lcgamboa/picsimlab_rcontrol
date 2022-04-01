@@ -1,0 +1,30 @@
+CC = x86_64-w64-mingw32-g++
+
+prefix=$(DESTDIR)/usr
+
+RM= rm -f
+CP= cp
+MKDIR = mkdir -p
+
+FLAGS =  -Wall -O2 -D_WIN_
+
+LIBS = -lws2_32
+
+OBJS = PLoader.o 
+
+exp: all
+
+all: $(OBJS)
+	@echo "Linking PLoader"
+	@$(CC) $(FLAGS) $(OBJS) -oPLoader.exe $(LIBS)
+
+%.o: %.cc
+	@echo "Compiling $<"
+	@$(CC) -c $(FLAGS) $< 
+
+run: all
+	wine PLoader.exe
+
+
+clean:
+	rm -f PLoader.exe *.o core
